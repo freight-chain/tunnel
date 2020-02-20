@@ -40,11 +40,12 @@ class Page {
     if (counter === undefined) counter = 180
     try {
       do {
-        await this.driver.sleep(300)
+        await this.driver.sleep(1000)
         if (await this.isElementLocated(element)) return true
       } while (counter-- > 0)
       return false
     } catch (err) {
+      console.log(err.message)
       return false
     }
   }

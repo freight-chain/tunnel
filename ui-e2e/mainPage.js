@@ -15,26 +15,35 @@ const disclaimer = By.className('disclaimer-title')
 
 class MainPage extends Page {
   async initFieldsBalance() {
-    if (!(await this.waitUntilWeb3Loaded())) return null
+    console.log('Starting initFieldsBalance')
+    if (!(await this.waitUntilWeb3Loaded())) {
+      console.log('waitUntilWeb3Loaded returned false')
+      return null
+    }
     try {
       const array = await super.findWithWait(fieldsBalance)
+      console.log('initFieldsBalance array', array.length)
+
       /* eslint-disable prefer-destructuring */
       this.fieldHomePOABalance = array[0]
       this.fieldForeignPOABalance = array[1]
       /* eslint-enable prefer-destructuring */
       return array
     } catch (err) {
+      console.log('initFieldsBalance', err.message)
       return null
     }
   }
 
   async getHomePOABalance() {
     await this.initFieldsBalance()
+    console.log('this.fieldHomePOABalance', this.fieldHomePOABalance)
     return parseFloat(await this.fieldHomePOABalance.getText())
   }
 
   async getForeignPOABalance() {
     await this.initFieldsBalance()
+    console.log('this.fieldForeignPOABalance', this.fieldForeignPOABalance)
     return parseFloat(await this.fieldForeignPOABalance.getText())
   }
 
